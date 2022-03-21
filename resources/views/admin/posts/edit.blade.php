@@ -39,6 +39,19 @@
     </div>
 
     <div class="form-group">
+        <label for="tag">Tag (#iltuotag , senza # non verranno presi)</label>
+        <div class="form-floating">
+            <textarea class="form-control" id="tag" name="tag" placeholder="tag" style="height: 50px">@foreach ($post->tags as $tag)#{{$tag->name}}@endforeach</textarea>
+        </div>
+        @error('tag')
+            <div class="alert alert-danger">
+                {{$message}}
+            </div>
+        @enderror
+    </div>
+
+
+    <div class="form-group">
         <label for="category_id">Categoria</label>
         <div class="input-group">
             <div class="input-group-prepend">

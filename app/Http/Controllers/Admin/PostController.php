@@ -160,10 +160,13 @@ class PostController extends Controller
         else
             $post->published = false;
 
+        $tag_to_pass = $this->control_tag($data['tag']);
         $post->fill($data);
         $post->save();
-
+        $post->tags()->sync($tag_to_pass);
         return redirect()->route('admin.posts.show' , $post->id);
+
+        $tag_to_pass = $this->control_tag($data['tag']);
     }
 
     /**
