@@ -21,6 +21,17 @@ class PostController extends Controller
         "category_id" => "required",
     ];
 
+    protected function control_tag($tag_to_control){
+        $tag_control = explode('#' , $tag_to_control);
+        $tag_to_pass = [];
+        foreach($tag_control as $control){
+            $temp = Tag::where('name' , $control)->first();
+            if($temp != null)
+                $tag_to_pass[] = $temp->id;
+        }
+        return $tag_to_pass;
+    }
+
     protected function create_slug($value , $id){
         $slug = Str::slug($value);
         $count = 1;
@@ -80,19 +91,10 @@ class PostController extends Controller
         $new_post->slug = $this->create_slug($data["title"], null);
         $new_post->user_id = Auth::user()->id;
 
-        //$test = "#gluten free #vegan";
-        $tag_control = explode('#' , $data['tag']);
-        $tag_to_pass = [];
-        foreach($tag_control as $control){
-            $temp = Tag::where('name' , $control)->first();
-            if($temp != null)
-                $tag_to_pass[] = $temp->id;
-        }
-        $tag_to_pass = array_diff($tag_to_pass, array(null));
         $new_post->fill($data);
         $new_post->save();
 
-        $new_post->tags()->sync($tag_to_pass);
+        $new_post->tags()->sync($this->control_tag($data['tag']));
         return redirect()->route('admin.posts.index');
 
     }
