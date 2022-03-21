@@ -80,11 +80,19 @@ class PostController extends Controller
         $new_post->slug = $this->create_slug($data["title"], null);
         $new_post->user_id = Auth::user()->id;
 
-       
-
+        //$test = "#gluten free #vegan";
+        $tag_control = explode('#' , $data['tag']);
+        $tag_to_pass = [];
+        foreach($tag_control as $control){
+            $temp = Tag::where('name' , $control)->first();
+            if($temp != null)
+                $tag_to_pass[] = $temp->id;
+        }
+        $tag_to_pass = array_diff($tag_to_pass, array(null));
         $new_post->fill($data);
         $new_post->save();
-        $new_post->tags()->sync($data['tag']);
+
+        $new_post->tags()->sync($tag_to_pass);
         return redirect()->route('admin.posts.index');
 
     }

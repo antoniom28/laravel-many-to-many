@@ -95,7 +95,7 @@
                 @endif
 
                 @foreach ($post->tags as $tag)
-                    <span>{{$tag->name}}</span>
+                    <span>#{{$tag->name}}</span>
                 @endforeach
 
                 <br><br>

@@ -68,23 +68,15 @@
     </div>
 
     <div class="form-group">
-        <label for="tag">Categoria</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="tag">Tag</label>
+        <label for="tag">Tag (#iltuotag , senza # non verranno presi)</label>
+        <div class="form-floating">
+            <textarea class="form-control" id="tag" name="tag" placeholder="tag" style="height: 50px">{{old('tag')}}</textarea>
+        </div>
+        @error('tag')
+            <div class="alert alert-danger">
+                {{$message}}
             </div>
-            <select class="custom-select" id="tag" name="tag">
-              <option value="{{null}}">scegli..</option>
-              @foreach ($tags as $tag)
-                <option value="{{$tag->id}}" {{(old("tag") == $tag->id) ? "selected" : ""}}>{{$tag->name}}</option>
-              @endforeach
-            </select>
-          </div>
-          @error('tag')
-              <div class="alert alert-danger">
-                  {{$message}}
-              </div>
-          @enderror
+        @enderror
     </div>
 
     <button type="submit" class="btn btn-primary">CREA</button>
