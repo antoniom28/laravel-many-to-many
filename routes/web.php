@@ -26,7 +26,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/' , 'HomeController@index')->name('home');
         Route::resource('/posts' , 'PostController');
-       // Route::resource('/tags' , 'TagController');
+        Route::resource('/tags' , 'TagController');
         Route::resource('/users' , 'UserController');
     });
 

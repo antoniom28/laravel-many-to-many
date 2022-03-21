@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Tag;
+use App\Post;
+use App\Category;
 use App\Http\Controllers\Controller;
 
 class TagController extends Controller
@@ -44,9 +47,11 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tag $tag)
     {
-        //
+        $posts = $tag->posts;
+        $categories = Category::all();
+        return view('admin.tags.show' , compact('posts' , 'categories'));
     }
 
     /**
