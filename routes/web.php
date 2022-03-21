@@ -19,7 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('auth')
     ->namespace('Admin')
     ->name('admin.')
@@ -27,6 +26,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/' , 'HomeController@index')->name('home');
         Route::resource('/posts' , 'PostController');
+       // Route::resource('/tags' , 'TagController');
         Route::resource('/users' , 'UserController');
     });
 

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\User;
 use App\Tag;
+use Illuminate\Support\Facades\Http;
 use App\Post;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -23,12 +25,24 @@ class PostController extends Controller
 
     protected function control_tag($tag_to_control){
         $tag_control = explode('#' , $tag_to_control);
-        $tag_to_pass = [];
+
         foreach($tag_control as $control){
-            $temp = Tag::where('name' , $control)->first();
-            if($temp != null)
-                $tag_to_pass[] = $temp->id;
+            if($control != null)
+                $tag_to_add[] = $control;
         }
+
+        foreach($tag_to_add as $add_tag){
+            $temp = Tag::where('name' , $add_tag)->first();
+            if($temp == null){
+                Tag::create([
+                    'name' => $add_tag,
+                    'slug' => $add_tag,
+                ]);
+                $temp = Tag::where('name' , $add_tag)->first();
+            }
+            $tag_to_pass[] = $temp->id;
+        }
+
         return $tag_to_pass;
     }
 
@@ -91,10 +105,12 @@ class PostController extends Controller
         $new_post->slug = $this->create_slug($data["title"], null);
         $new_post->user_id = Auth::user()->id;
 
+        $tag_to_pass = $this->control_tag($data['tag']);
+
         $new_post->fill($data);
         $new_post->save();
 
-        $new_post->tags()->sync($this->control_tag($data['tag']));
+        $new_post->tags()->sync($tag_to_pass);
         return redirect()->route('admin.posts.index');
 
     }
