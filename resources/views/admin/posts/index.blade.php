@@ -117,7 +117,7 @@
                 <br><br>
 
                 <div>
-                    <a href="{{route('admin.posts.show' , $post->id)}}">
+                    <a href="{{route('admin.posts.show' , $post->slug)}}">
                         VISUALIZZA
                     </a>
                 </div>

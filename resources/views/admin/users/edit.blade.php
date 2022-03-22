@@ -22,7 +22,7 @@
                 <input type="file" name="avatar" class="change-avatar w-100 h-100 p-1 form-control @error('avatar') is-invalid @enderror ">
             </div>
         @else
-            <h1>CARICA UN AVATAR</h1>    
+            <h1 class="w-100">CARICA UN AVATAR</h1>    
             <input type="file" name="avatar" class="w-70 p-1 form-control @error('avatar') is-invalid @enderror ">
         @endif
     </div>

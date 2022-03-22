@@ -26,6 +26,8 @@ class PostController extends Controller
 
     protected function control_tag($tag_to_control){
         $tag_control = explode('#' , $tag_to_control);
+        $tag_to_add = [];
+        $tag_to_pass = [];
 
         foreach($tag_control as $control){
             if($control != null)
@@ -122,8 +124,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($slug)
     {
+        $post = Post::all()->where('slug' ,$slug)->first();
         return view('admin.posts.show' , compact('post'));
     }
 
